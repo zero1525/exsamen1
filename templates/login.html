@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="form-container">
+    <h2>Вход</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }} 
+        <button type="submit">Войти</button>
+    </form>
+    <p class="register-prompt">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+</div>
+
+{% endblock %}

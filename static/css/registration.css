@@ -1,0 +1,27 @@
+/* Ключевые стили, которые работают и для регистрации, и для входа */
+.form-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ... Стилизация полей ввода и меток ... */
+
+/* Стилизация кнопки (можно переиспользовать) */
+.form-container button[type="submit"] {
+    width: 100%;
+    background-color: #2ecc71; /* Зеленый/синий для регистрации - можно поменять для отличия */
+    color: white;
+    padding: 12px;
+    /* ... остальные свойства ... */
+}
+
+/* Стилизация ссылки внизу (теперь это "Войти") */
+.register-prompt a {
+    color: #3498db; /* Синий акцент для ссылки */
+    /* ... остальные свойства ... */
+}

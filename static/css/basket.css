@@ -1,0 +1,82 @@
+/* Стили для заголовка корзины */
+h1 {
+    color: #2c3e50; /* Темно-синий/почти черный */
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Стилизация таблицы корзины */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Убираем двойные границы */
+    margin-top: 20px;
+    background-color: #ffffff; /* Белый фон таблицы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    border-radius: 8px; /* Скругление углов таблицы */
+    overflow: hidden; /* Важно для скругления углов */
+}
+
+/* Стилизация заголовков таблицы */
+th {
+    background-color: #3498db; /* Яркий синий фон */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Стилизация ячеек (строк) */
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dddddd; /* Разделитель между строками */
+    text-align: left;
+}
+
+/* Чередование цветов строк для лучшей читаемости */
+tr:nth-child(even) {
+    background-color: #f8f8f8; /* Очень светло-серый для четных строк */
+}
+
+/* Выделение строки "Общая стоимость" */
+table tr:last-child td {
+    background-color: #ecf0f1; /* Более темный фон для итога */
+    font-size: 1.2em;
+    border-bottom: none; /* Убираем нижнюю границу */
+}
+
+/* Выравнивание чисел (Количество, Цена, Итого) по правому краю */
+/* Если ваши данные всегда будут в ячейках 2, 3 и 4, используйте это */
+table td:nth-child(2),
+table td:nth-child(3),
+table td:nth-child(4) {
+    text-align: right;
+}
+
+/* Стилизация текста "Ваша корзина пуста" */
+p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #7f8c8d; /* Серый цвет */
+    padding: 40px 0;
+}
+
+/* Стилизация кнопки/ссылки "Продолжить покупки" */
+.continue-shopping-link {
+    display: inline-block;
+    margin: 25px auto;
+    padding: 10px 20px;
+    background-color: #2ecc71; /* Зеленый цвет */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    text-align: center;
+}
+
+.continue-shopping-link:hover {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+}

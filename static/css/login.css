@@ -1,0 +1,92 @@
+/* Контейнер формы: центрирование и ограничение ширины */
+.form-container {
+    max-width: 400px; /* Умеренная ширина для формы */
+    margin: 40px auto; /* Центрирование по горизонтали и отступы сверху/снизу */
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Центрирование заголовка */
+}
+
+/* Заголовок формы */
+.form-container h2 {
+    color: #34495e;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+/* Стилизация параграфов, содержащих поля (от {{ form.as_p }}) */
+.form-container form p {
+    text-align: left; /* Выравнивание текста и полей влево */
+    margin-bottom: 15px;
+}
+
+/* Стилизация меток (labels) */
+.form-container label {
+    display: block; /* Каждая метка на новой строке */
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.95em;
+}
+
+/* Стилизация полей ввода (input) */
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Важно, чтобы padding не увеличивал общую ширину */
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus,
+.form-container input[type="email"]:focus {
+    border-color: #3498db; /* Синяя рамка при фокусе */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    outline: none;
+}
+
+/* Стилизация кнопки отправки */
+.form-container button[type="submit"] {
+    width: 100%;
+    background-color: #3498db; /* Синяя кнопка */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* Стилизация ссылки на регистрацию */
+.register-prompt {
+    margin-top: 25px;
+    font-size: 0.95em;
+    color: #7f8c8d;
+}
+
+.register-prompt a {
+    color: #e74c3c; /* Красный акцент для ссылки */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.register-prompt a:hover {
+    color: #c0392b;
+    text-decoration: underline;
+}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="goods-detail-container">
+    
+    <div class="goods-image-block">
+        {% if goods.img %}
+        <img src="{{ goods.img.url }}" alt="{{ goods.name }}"> 
+        {% else %}
+        
+        {% endif %}
+    </div>
+
+    <div class="goods-info-block">
+        <h1>{{ goods.name }}</h1>
+
+        <p><strong>Описание:</strong> {{ goods.description }}</p>
+        <p><strong>Категория:</strong> {{ goods.category.name }}</p>
+        <p><strong>Бренд:</strong> {{ goods.brand.name }}</p>
+        <p><strong>Цена:</strong> {{ goods.price }}</p>
+
+        <div class="goods-actions">
+            <a href="{% url 'add_to_basket' goods.pk %}" class="add-to-basket-btn">Добавить в корзину</a>
+            <a href="{% url 'goods_list' %}" class="back-to-list-btn">Вернуться к списку товаров</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

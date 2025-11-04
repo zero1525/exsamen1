@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Список товаров</h1>
+
+<div class="goods-page-layout">
+
+  <div class="sidebar">
+    <div class="filter-block">
+      <h3>Категории</h3>
+      <ul>
+        <li>
+          <a href="{% url 'goods_list' %}{% if selected_brand %}?brand={{ selected_brand }}{% endif %}">Все категории</a>
+        </li>
+        {% for category in categories %}
+        <li>
+          <a href="{% url 'goods_list' %}?category={{ category.pk }}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}">
+            {% if selected_category == category.pk|stringformat:"s" %}
+              <strong>{{ category.name }}</strong>
+            {% else %}
+              {{ category.name }}
+            {% endif %}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="filter-block">
+      <h3>Бренды</h3>
+      <ul>
+        <li>
+          <a href="{% url 'goods_list' %}{% if selected_category %}?category={{ selected_category }}{% endif %}">Все бренды</a>
+        </li>
+        {% for brand in brands %}
+        <li>
+          <a href="{% url 'goods_list' %}?brand={{ brand.pk }}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+            {% if selected_brand == brand.pk|stringformat:"s" %}
+              <strong>{{ brand.name }}</strong>
+            {% else %}
+              {{ brand.name }}
+            {% endif %}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="filter-block">
+      <h3>Поиск</h3>
+      <form method="get" action="{% url 'goods_list' %}">
+        <input type="text" name="q" placeholder="Поиск" value="{{ search_q }}">
+        {% if selected_category %}
+          <input type="hidden" name="category" value="{{ selected_category }}">
+        {% endif %}
+        {% if selected_brand %}
+          <input type="hidden" name="brand" value="{{ selected_brand }}">
+        {% endif %}
+        <button type="submit">Искать</button>
+      </form>
+    </div>
+
+    {% if selected_category or selected_brand or search_q %}
+      <p><a href="{% url 'goods_list' %}">Сбросить фильтры</a></p>
+    {% endif %}
+  </div>
+
+  <div class="main-content">
+    <div class="goods-grid">
+      {% for item in goods %}
+      <div class="goods-card">
+        {% if item.img %}
+          <img src="{{ item.img.url }}" alt="{{ item.name }}">
+        {% endif %}
+        <h4>{{ item.name }}</h4>
+        <p>Категория: {{ item.category.name }}</p>
+        <p>Бренд: {{ item.brand.name }}</p>
+        <p>Цена: {{ item.price }}</p>
+        <div class="goods-actions-card">
+          <a href="{% url 'goods_detail' item.pk %}">Подробнее</a>
+          <a href="{% url 'add_to_basket' item.pk %}">В корзину</a>
+        </div>
+      </div>
+      {% empty %}
+        <p>Нет товаров по выбранным фильтрам.</p>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination">
+      {% with qs_params="" %}
+        {% if selected_category %}{% firstof qs_params "" %}{% endif %}
+      {% endwith %}
+
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">Предыдущая</a>
+      {% endif %}
+
+      <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">Следующая</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
