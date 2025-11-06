@@ -7,6 +7,7 @@ from .forms import RegisterForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
+
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'registration.html'
@@ -23,9 +24,7 @@ class GoodsListView(ListView):
         qs = Goods.objects.all().select_related('category', 'brand')
         category_id = self.request.GET.get('category')
         brand_id = self.request.GET.get('brand')
-        q = self.request.GET.get('q')  # опционально: поиск по названию
-
-        # применяем фильтры только если параметры заданы и не пусты
+        q = self.request.GET.get('q') 
         if category_id:
             try:
                 cid = int(category_id)
@@ -49,7 +48,6 @@ class GoodsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
-        # передаем выбранные фильтры в шаблон (строки)
         context['selected_category'] = self.request.GET.get('category', '')
         context['selected_brand'] = self.request.GET.get('brand', '')
         context['search_q'] = self.request.GET.get('q', '')
@@ -80,10 +78,7 @@ class BasketListView(ListView):
         context['total'] = sum(item.goods.price.amount * item.quantity for item in basket)
         return context
 
-
-
 from django.views import View
-
 
 @method_decorator(login_required, name='dispatch')
 class AddToBasketView(View):

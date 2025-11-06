@@ -42,7 +42,7 @@ class Goods (models.Model):
 class Basket (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     goods=models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name="товар")
-    quantity=models.PositiveIntegerField(verbose_name="количество", default=1)
+    quantity=models.PositiveIntegerField(verbose_name="количество", default=0)
 
     class Meta:
         verbose_name = "Корзина"

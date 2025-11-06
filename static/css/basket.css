@@ -1,14 +1,14 @@
-/* Стили для заголовка корзины */
+
 h1 {
-    color: #2c3e50; /* Темно-синий/почти черный */
+    color: #2c3e50; 
     margin-bottom: 25px;
     text-align: center;
 }
 
-/* Стилизация таблицы корзины */
+
 table {
     width: 100%;
-    border-collapse: collapse; /* Убираем двойные границы */
+    border-collapse: collapse;
     margin-top: 20px;
     background-color: #ffffff; /* Белый фон таблицы */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
