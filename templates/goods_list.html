@@ -76,9 +76,13 @@
         <p>Категория: {{ item.category.name }}</p>
         <p>Бренд: {{ item.brand.name }}</p>
         <p>Цена: {{ item.price }}</p>
+
         <div class="goods-actions-card">
           <a href="{% url 'goods_detail' item.pk %}">Подробнее</a>
-          <a href="{% url 'add_to_basket' item.pk %}">В корзину</a>
+          <!-- 🧩 Исправлено: вместо good.pk → item.pk, и добавлена закрывающая ссылка -->
+          <a href="{% url 'add_to_basket' item.pk %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Добавить в корзину
+          </a>
         </div>
       </div>
       {% empty %}
@@ -88,10 +92,6 @@
 
     {% if is_paginated %}
     <div class="pagination">
-      {% with qs_params="" %}
-        {% if selected_category %}{% firstof qs_params "" %}{% endif %}
-      {% endwith %}
-
       {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if search_q %}&q={{ search_q }}{% endif %}">Предыдущая</a>
       {% endif %}

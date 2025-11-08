@@ -1,11 +1,11 @@
-from django.views.generic import ListView, DetailView
-from django.shortcuts import get_object_or_404, redirect
-from .models import Category, Brand, Goods, Basket
-from django.views.generic import CreateView
+from django.views.generic import ListView, DetailView, CreateView
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from .forms import RegisterForm
-from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views import View
+from .models import Category, Brand, Goods, Basket, Order, OrderItem
+from .forms import RegisterForm
 
 
 class RegisterView(CreateView):
@@ -24,24 +24,19 @@ class GoodsListView(ListView):
         qs = Goods.objects.all().select_related('category', 'brand')
         category_id = self.request.GET.get('category')
         brand_id = self.request.GET.get('brand')
-        q = self.request.GET.get('q') 
+        q = self.request.GET.get('q')
         if category_id:
             try:
-                cid = int(category_id)
-                qs = qs.filter(category_id=cid)
+                qs = qs.filter(category_id=int(category_id))
             except (ValueError, TypeError):
                 pass
-
         if brand_id:
             try:
-                bid = int(brand_id)
-                qs = qs.filter(brand_id=bid)
+                qs = qs.filter(brand_id=int(brand_id))
             except (ValueError, TypeError):
                 pass
-
         if q:
             qs = qs.filter(name__icontains=q)
-
         return qs.order_by('name')
 
     def get_context_data(self, **kwargs):
@@ -54,12 +49,10 @@ class GoodsListView(ListView):
         return context
 
 
-
 class GoodsDetailView(DetailView):
     model = Goods
     template_name = 'goods_detail.html'
     context_object_name = 'goods'
-
 
 
 class BasketListView(ListView):
@@ -78,7 +71,6 @@ class BasketListView(ListView):
         context['total'] = sum(item.goods.price.amount * item.quantity for item in basket)
         return context
 
-from django.views import View
 
 @method_decorator(login_required, name='dispatch')
 class AddToBasketView(View):
@@ -87,12 +79,73 @@ class AddToBasketView(View):
         basket_item, created = Basket.objects.get_or_create(user=request.user, goods=goods)
         basket_item.quantity += 1
         basket_item.save()
-        return redirect('basket_view')
+        return redirect(request.META.get('HTTP_REFERER', 'goods_list'))
 
 
+@method_decorator(login_required, name='dispatch')
 class RemoveFromBasketView(View):
     def get(self, request, pk):
-        if request.user.is_authenticated:
-            basket_item = get_object_or_404(Basket, pk=pk, user=request.user)
+        basket_item = get_object_or_404(Basket, pk=pk, user=request.user)
+        basket_item.delete()
+        return redirect('basket_view')
+
+
+
+@method_decorator(login_required, name='dispatch')
+class IncreaseQuantityView(View):
+    def get(self, request, pk):
+        basket_item = get_object_or_404(Basket, pk=pk, user=request.user)
+        basket_item.quantity += 1
+        basket_item.save()
+        return redirect('basket_view')
+
+
+
+@method_decorator(login_required, name='dispatch')
+class DecreaseQuantityView(View):
+    def get(self, request, pk):
+        basket_item = get_object_or_404(Basket, pk=pk, user=request.user)
+        if basket_item.quantity > 1:
+            basket_item.quantity -= 1
+            basket_item.save()
+        else:
             basket_item.delete()
         return redirect('basket_view')
+
+
+@method_decorator(login_required, name='dispatch')
+class CreateOrderView(View):
+    def get(self, request):
+        basket_items = Basket.objects.filter(user=request.user)
+        if not basket_items.exists():
+            return redirect('basket_view')
+        return render(request, 'order_form.html')
+
+    def post(self, request):
+        basket_items = Basket.objects.filter(user=request.user)
+        if not basket_items.exists():
+            return redirect('basket_view')
+
+        recipient_name = request.POST.get('recipient_name')
+        address = request.POST.get('address')
+        card_number = request.POST.get('card_number')
+
+        total = sum(item.goods.price.amount * item.quantity for item in basket_items)
+        order = Order.objects.create(user=request.user, total_price=total)
+
+        for item in basket_items:
+            OrderItem.objects.create(
+                order=order,
+                goods=item.goods,
+                quantity=item.quantity,
+                price=item.goods.price.amount
+            )
+
+        basket_items.delete()
+
+        return render(request, 'order_success.html', {
+            'order': order,
+            'recipient_name': recipient_name,
+            'address': address,
+            'card_number': f"**** **** **** {card_number[-4:]}"
+        })

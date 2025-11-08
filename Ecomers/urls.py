@@ -2,7 +2,8 @@
 from django.contrib import admin
 from django.urls import path
 from Ecomers import settings
-from ecomers1.views import GoodsListView, GoodsDetailView, BasketListView, AddToBasketView, RegisterView, RemoveFromBasketView
+from ecomers1 import views
+from ecomers1.views import *
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
@@ -16,6 +17,13 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='goods_list'), name='logout'),
     path('remove-from-basket/<int:pk>/', RemoveFromBasketView.as_view(), name='remove_from_basket'),
+    path('order/create/', views.CreateOrderView.as_view(), name='create_order'),
+    path('add_to_basket/<int:pk>/', AddToBasketView.as_view(), name='add_to_basket'),
+    path('basket/increase/<int:pk>/', IncreaseQuantityView.as_view(), name='increase_quantity'),
+    path('basket/decrease/<int:pk>/', DecreaseQuantityView.as_view(), name='decrease_quantity'),
+
+
+
 
 ]
 if settings.DEBUG:

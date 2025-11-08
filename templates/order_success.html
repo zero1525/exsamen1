@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container mx-auto p-6 text-center">
+    <h1 class="text-3xl font-bold text-green-700 mb-4">Заказ успешно оформлен ✅</h1>
+
+    <p><strong>Номер заказа:</strong> {{ order.id }}</p>
+    <p><strong>Имя получателя:</strong> {{ recipient_name }}</p>
+    <p><strong>Адрес доставки:</strong> {{ address }}</p>
+    <p><strong>Сумма:</strong> {{ order.total_price }} сом</p>
+    <p><strong>Оплата картой:</strong> {{ card_number }}</p>
+
+    <a href="{% url 'goods_list' %}" class="mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+        Вернуться к покупкам
+    </a>
+</main>
+{% endblock %}

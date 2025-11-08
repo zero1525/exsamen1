@@ -3,20 +3,22 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-     <link rel="stylesheet" href="{% static "css/base.css" %}">
-      <link rel="stylesheet" href="{% static "css/basket.css" %}">
-       <link rel="stylesheet" href="{% static "css/goods_detail.css" %}">
-        <link rel="stylesheet" href="{% static "css/goods_list.css" %}">
-         <link rel="stylesheet" href="{% static "css/login.css" %}">
-          <link rel="stylesheet" href="{% static "css/registration.css" %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+    <link rel="stylesheet" href="{% static 'css/goods_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/goods_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order_form.css' %}">
     <title>Магазин</title>
 </head>
 <body>
-   <nav>
+<nav>
     {% if user.is_authenticated %}
         <div>
-            Привет, **{{ user.username }}**!
-            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            Привет, <strong>{{ user.username }}</strong>!
+            <a href="{% url 'basket_view' %}" style="margin-left:20px;">Корзина</a>
+            <form action="{% url 'logout' %}" method="post" style="display:inline; margin-left:10px;">
                 {% csrf_token %}
                 <button type="submit">Выйти</button>
             </form>
@@ -24,11 +26,13 @@
     {% else %}
         <div>
             <a href="{% url 'login' %}">Войти</a> |
-            <a href="{% url 'register' %}">Регистрация</a>
+            <a href="{% url 'register' %}">Регистрация</a> |
+            <a href="{% url 'basket_view' %}">Корзина</a>
         </div>
     {% endif %}
 </nav>
-    <hr>
-    {% block content %}{% endblock %}
+<hr>
+{% block content %}{% endblock %}
 </body>
 </html>
+

@@ -1,151 +1,205 @@
-/* Основной контейнер страницы: использует Flexbox для макета с боковой панелью */
+/* --- Сброс и основной контейнер (повторение из предыдущих ответов) --- */
 .goods-page-layout {
     display: flex;
-    max-width: 1200px;
+    max-width: 1300px; /* Немного шире */
     margin: 20px auto;
-    padding: 20px;
+    padding: 0 20px;
+    gap: 30px;
+}
+.main-content {
+    flex-grow: 1;
 }
 
-/* --- Стилизация боковой панели (Фильтры) --- */
+/* --- 1. Улучшенная Боковая Панель (Sidebar) --- */
 
 .sidebar {
-    flex: 0 0 250px; /* Фиксированная ширина боковой панели */
-    padding-right: 20px;
+    flex: 0 0 280px; /* Немного шире для лучшего вида */
+    padding: 20px;
+    background-color: #ffffff; /* Белый фон */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    height: fit-content; /* Чтобы панель не растягивалась на всю высоту */
+    position: sticky; /* Закрепление при прокрутке */
+    top: 20px;
 }
 
 .sidebar h3 {
-    color: #34495e;
-    border-bottom: 2px solid #bdc3c7;
-    padding-bottom: 5px;
-    margin-top: 20px;
+    color: #1a237e; /* Глубокий синий */
+    border-bottom: 2px solid #e0e7ff; /* Светло-синяя линия */
+    padding-bottom: 8px;
+    margin-top: 0;
     margin-bottom: 15px;
+    font-size: 1.3em;
 }
 
 .sidebar ul {
     list-style: none;
     padding: 0;
+    margin-bottom: 25px;
 }
 
 .sidebar li {
-    padding: 5px 0;
-    font-size: 1em;
+    padding: 4px 0;
 }
 
 .sidebar li a {
-    color: #2c3e50;
+    color: #555;
     text-decoration: none;
-    transition: color 0.2s;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.2s, padding-left 0.2s;
 }
 
 .sidebar li a:hover {
     color: #3498db;
+    padding-left: 5px; /* Эффект при наведении */
+}
+
+/* Выделение активного фильтра */
+.sidebar li a strong {
+    color: #d35400; /* Яркий оранжевый/красный для акцента */
+    font-weight: 700;
+}
+
+/* Стилизация блока поиска */
+.filter-block form {
+    /* (Оставляем стили из предыдущего ответа) */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.filter-block input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.filter-block button[type="submit"] {
+    background-color: #2ecc71; /* Зеленая кнопка поиска */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.filter-block button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+/* Ссылка сброса фильтров */
+.sidebar > p {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #eee;
+}
+.sidebar > p a {
+    color: #e74c3c;
+    text-decoration: none;
     font-weight: bold;
 }
 
-/* --- Стилизация основного контента (Сетка Товаров) --- */
-
-.main-content {
-    flex-grow: 1;
-}
+/* --- 2. Улучшенная Сетка Товаров (Goods Grid) --- */
 
 .goods-grid {
     display: grid;
-    /* Создаем 3 колонки, автоматически подстраиваясь под размер контейнера */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    /* Увеличение числа колонок на больших экранах */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px;
     margin-top: 20px;
 }
 
 /* Стилизация карточки товара */
 .goods-card {
-    border: 1px solid #e0e0e0;
-    padding: 15px;
-    border-radius: 8px;
+    border: none; /* Убираем стандартную рамку */
+    padding: 0; /* Убираем padding на контейнере */
+    border-radius: 12px;
     text-align: center;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Глубокая тень */
     transition: box-shadow 0.3s, transform 0.3s;
+    overflow: hidden; /* Важно для скругления краев изображения */
 }
 
 .goods-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px); /* Легкий эффект поднятия */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
 }
 
 .goods-card img {
-    width: 100%;
-    max-height: 200px; /* Ограничиваем высоту изображения */
-    object-fit: contain; /* Обеспечиваем, что изображение полностью видно */
-    border-radius: 4px;
-    margin-bottom: 10px;
+    height: 220px; /* Фиксированная высота для всех изображений */
+    object-fit: cover; /* Обрезка для заполнения контейнера */
+    margin-bottom: 0;
 }
 
-.goods-card h4 {
-    margin: 10px 0;
-    font-size: 1.2em;
+/* Блок информации и действий внутри карточки */
+.goods-info-area {
+    padding: 5px;
+}
+
+.goods-info-area h4 {
+    margin: 10px 0 5px 0;
+    font-size: 1.25em;
     color: #2c3e50;
-    height: 2.4em; /* Фиксированная высота для названия (2 строки) */
+    line-height: 1.3;
+    height: 3.2em; /* Достаточно места для 2 строк названия */
     overflow: hidden;
 }
 
-.goods-card p {
-    font-size: 1.3em;
-    color: #e74c3c; /* Красный для цены */
-    font-weight: bold;
-    margin: 10px 0 15px 0;
+.goods-info-area p {
+    font-size: 0.95em;
+    color: #7f8c8d;
+    margin: 2px 0;
 }
 
-/* Стилизация ссылок внутри карточки */
+/* Цена - самый важный элемент */
+.goods-info-area p:last-of-type {
+    font-size: 1.6em;
+    color: #c0392b; /* Более темный, насыщенный красный */
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+/* --- 3. Стилизация кнопок действий в карточке --- */
+
+.goods-actions-card {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 15px 15px 15px;
+}
+
 .goods-actions-card a {
+    flex-grow: 1; /* Равное распределение ширины */
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 0.9em;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
     margin: 0 5px;
-    transition: background-color 0.2s;
 }
 
-.goods-actions-card a:first-child { /* Подробнее */
-    background-color: #3498db;
-    color: white;
+/* Кнопка "Подробнее" */
+.goods-actions-card a:first-child {
+    background-color: #ecf0f1;
+    color: #34495e;
 }
 .goods-actions-card a:first-child:hover {
-    background-color: #2980b9;
-}
-
-.goods-actions-card a:last-child { /* В корзину */
-    background-color: #2ecc71;
-    color: white;
-}
-.goods-actions-card a:last-child:hover {
-    background-color: #27ae60;
-}
-
-
-/* --- Стилизация пагинации --- */
-
-.pagination {
-    text-align: center;
-    margin: 30px 0;
-    padding-top: 15px;
-    border-top: 1px solid #ccc;
-}
-
-.pagination a {
-    text-decoration: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    background-color: #ecf0f1;
-    color: #2c3e50;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.pagination a:hover {
     background-color: #bdc3c7;
 }
 
-.pagination span {
-    padding: 8px 15px;
-    color: #7f8c8d;
+/* Кнопка "Добавить в корзину" */
+.add-to-basket-btn {
+    background-color: #e67e22; /* Оранжевый - привлекает внимание */
+    color: white;
+}
+.add-to-basket-btn:hover {
+    background-color: #d35400;
+}
+
+/* --- 4. Пагинация --- */
+
+.pagination {
+    text-align: center;
+    margin: 40px 0;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
 }

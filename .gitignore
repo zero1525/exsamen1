@@ -173,3 +173,9 @@ cython_debug/
 
 migrations
 migrations/
+
+venv/
+.venv/
+
+db.sqlite3
+settings.local.py

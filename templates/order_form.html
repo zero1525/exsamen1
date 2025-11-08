@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Оформление заказа</h1>
+
+    <form method="post" class="space-y-4 bg-white shadow-md rounded p-6">
+        {% csrf_token %}
+        <div>
+            <label class="block text-gray-700">Имя получателя:</label>
+            <input type="text" name="recipient_name" class="w-full border p-2 rounded" required>
+        </div>
+
+        <div>
+            <label class="block text-gray-700">Адрес доставки:</label>
+            <textarea name="address" class="w-full border p-2 rounded" required></textarea>
+        </div>
+
+        <div>
+            <label class="block text-gray-700">Номер карты:</label>
+            <input type="text" name="card_number" pattern="[0-9]{16}" maxlength="16"
+                   class="w-full border p-2 rounded" placeholder="0000 0000 0000 0000" required>
+        </div>
+
+        <div class="flex gap-4">
+            <div>
+                <label class="block text-gray-700">Срок действия:</label>
+                <input type="text" name="card_expiry" placeholder="MM/YY"
+                       class="w-full border p-2 rounded" required>
+            </div>
+
+            <div>
+                <label class="block text-gray-700">CVC:</label>
+                <input type="text" name="card_cvc" maxlength="3"
+                       class="w-full border p-2 rounded" required>
+            </div>
+        </div>
+
+        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+            Подтвердить заказ
+        </button>
+    </form>
+</main>
+{% endblock %}
